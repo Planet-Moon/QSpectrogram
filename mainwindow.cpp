@@ -1,26 +1,22 @@
 #include "mainwindow.h"
-#include "spectrogram.h"
-#include "qspectrogram.h"
-#include "pulsethread.h"
 #include <QDebug>
 #include <QKeyEvent>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {
-    spectrogram = new Spectrogram(44100, 44100 * 60, 256, 8192);
+    spectrogram = std::make_unique<Spectrogram>(44100, 44100 * 60, 256, 8192);
 
-    spectrogramWidget = new QSpectrogram(spectrogram, this);
-    setCentralWidget(spectrogramWidget);
+    spectrogramWidget = std::make_unique<QSpectrogram>(spectrogram.get(), this);
+    setCentralWidget(spectrogramWidget.get());
 
     resize(1024, 600);
-    QString device("alsa_output.pci-0000_00_1f.3.analog-stereo.monitor");
-    //device = "alsa_input.pci-0000_00_1f.3.analog-stereo";
 
-    pulseThread = new PulseThread(device, 44100, 1024);
-    pulseThread->start();
+    inputThread = std::make_unique<InputThread>(44100, 1024);
+    inputThread->start();
 
-    connect(pulseThread, SIGNAL(bufferFilled(float*,uint)),
-            spectrogramWidget, SLOT(processData(float*,uint)));
+    connect(inputThread.get(), &InputThread::bufferFilled,
+            spectrogramWidget.get(), &QSpectrogram::processData);
 }
 
 void
@@ -50,6 +46,5 @@ MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 MainWindow::~MainWindow() {
-    delete spectrogram;
-    spectrogram = 0;
+
 }

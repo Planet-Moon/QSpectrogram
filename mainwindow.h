@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "spectrogram.h"
 #include "qspectrogram.h"
-#include "pulsethread.h"
+#include "inputthread.h"
 
 class MainWindow : public QMainWindow
 {
@@ -14,12 +14,13 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    PulseThread *pulseThread;
+    std::unique_ptr<InputThread> inputThread;
 protected:
     void keyPressEvent(QKeyEvent *event);
+
 private:
-    Spectrogram *spectrogram;
-    QSpectrogram *spectrogramWidget;
+    std::unique_ptr<Spectrogram> spectrogram;
+    std::unique_ptr<QSpectrogram> spectrogramWidget;
 };
 
 #endif // MAINWINDOW_H

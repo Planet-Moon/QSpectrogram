@@ -36,3 +36,10 @@ target_compile_definitions(lib${PROJECT_NAME} PRIVATE QSPECTROGRAM_LIB)
 
 add_executable(${PROJECT_NAME} myMain.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE lib${PROJECT_NAME})
+
+add_executable(${PROJECT_NAME}_original
+    main.cpp
+    mainwindow.h
+    mainwindow.cpp
+)
+target_link_libraries(${PROJECT_NAME}_original PRIVATE lib${PROJECT_NAME})

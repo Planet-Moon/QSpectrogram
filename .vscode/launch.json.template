@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${command:cmake.getLaunchTargetDirectory}",
+            "environment": [
+              {
+                "name": "PATH",
+                "value": "$PATH;.../Qt/5.15.2/msvc2019_64/bin;${command:cmake.getLaunchTargetDirectory}"
+              }
+            ],
+            "console": "integratedTerminal",
+            "visualizerFile": "${env:APPDATA}\\Code\\User\\workspaceStorage\\c133bf07a4c1e0156374260b9df0b0d4\\tonka3000.qtvsctools\\qt.natvis.xml"
+        }
+    ]
+}
