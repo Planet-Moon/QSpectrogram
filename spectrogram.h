@@ -1,11 +1,13 @@
 #ifndef SPECTROGRAM_H
 #define SPECTROGRAM_H
 
+#include "qspectrogram_global.h"
+
 #include <list>
 #include <vector>
 #include <complex>
 
-class Spectrogram {
+class QSPECTROGRAM_EXPORT Spectrogram {
 public:
     Spectrogram(unsigned int _sampleRate,
                unsigned int _sampleLength,

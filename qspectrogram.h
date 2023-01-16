@@ -1,10 +1,12 @@
 #ifndef QSPECTROGRAM_H
 #define QSPECTROGRAM_H
 
+#include "qspectrogram_global.h"
+
 #include <QWidget>
 #include "spectrogram.h"
 
-class QSpectrogram : public QWidget
+class QSPECTROGRAM_EXPORT QSpectrogram : public QWidget
 {
     Q_OBJECT
 public:
