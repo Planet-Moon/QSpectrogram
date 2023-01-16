@@ -16,6 +16,7 @@ set(SRC
     qspectrogram.cpp
     spectrogram.cpp
     fftcuda.cu
+    inputthread.cpp
 )
 
 set(INC
@@ -23,6 +24,7 @@ set(INC
     qspectrogram.h
     qspectrogram_global.h
     spectrogram.h
+    inputthread.h
 )
 
 add_library(lib${PROJECT_NAME} SHARED ${SRC} ${INC})
