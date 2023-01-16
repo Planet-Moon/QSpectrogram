@@ -29,11 +29,11 @@ void InputThread::run() {
 
     while(!stopped){
         for(int i = 0; i < bufferSize; i++){
-            rawBuffer[i] = generator->generate();
+            rawBuffer[i] = generator.generate();
         }
-        QThread::msleep(1000*(1/sampleRate)*bufferSize);
+        QThread::usleep(1'000'000*bufferSize/sampleRate);
         *copyBuffer = *buffer;
-        emit bufferFilled(copyBuffer, bufferSize);
+        emit bufferFilled(copyBuffer->data(), bufferSize);
     }
 }
 
