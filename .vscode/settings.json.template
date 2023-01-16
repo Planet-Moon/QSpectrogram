@@ -1,0 +1,10 @@
+{
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.generator": "Ninja",
+    "cmake.configureSettings": {
+        "CMAKE_TOOLCHAIN_FILE":".../vcpkg/scripts/buildsystems/vcpkg.cmake",
+    },
+    "cmake.environment": {
+        "Qt5_DIR": ".../Qt/5.15.2/msvc2019_64/lib/cmake/Qt5"
+    }
+}
