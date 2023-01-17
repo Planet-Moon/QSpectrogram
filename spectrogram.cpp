@@ -3,7 +3,7 @@
 #include <iostream>
 #include "fftcuda.h"
 
-# define M_PI           3.14159265358979323846
+# define M_PI 3.14159265358979323846
 
 Spectrogram::Spectrogram(unsigned int _sampleRate,
 			 unsigned int _sampleLength,
