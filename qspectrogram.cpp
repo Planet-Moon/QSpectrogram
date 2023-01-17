@@ -332,8 +332,8 @@ QSpectrogram::drawGrid(QPainter &painter) {
 
 void
 QSpectrogram::drawWaveformPlot(QPainter &painter) {
-    std::list<float>::iterator itMin = spectrogram->waveEnvelopeMin.end();
-    std::list<float>::iterator itMax = spectrogram->waveEnvelopeMax.end();
+    auto itMin = spectrogram->waveEnvelopeMin.rbegin();
+    auto itMax = spectrogram->waveEnvelopeMax.rbegin();
 
     unsigned int pixel = 0;
 
@@ -344,8 +344,8 @@ QSpectrogram::drawWaveformPlot(QPainter &painter) {
         pixel= ploty + plotheight;
     }
     for (;;) {
-        if (itMin == spectrogram->waveEnvelopeMin.begin()) break;
-        if (itMax == spectrogram->waveEnvelopeMax.begin()) break;
+        if (itMin == spectrogram->waveEnvelopeMin.rend()) break;
+        if (itMax == spectrogram->waveEnvelopeMax.rend()) break;
         if (pixel < plotx) break;
 
         int minValue = (int)(0.5 * ((float)waveformWidth)*(*itMin));
@@ -361,8 +361,8 @@ QSpectrogram::drawWaveformPlot(QPainter &painter) {
         }
 
         pixel--;
-        itMin--;
-        itMax--;
+        itMin++;
+        itMax++;
     }
 }
 
@@ -455,7 +455,7 @@ QSpectrogram::renderImage(unsigned int newLines, bool redraw) {
 
                 for (unsigned int ind_freq = 0; ind_freq < lineData.size()/2; ind_freq++) {
                     int y = pixelList[ind_freq]-ploty;
-                    int x = plotwidth - spectrogram->spectrogramData.size() + ind_line;                    
+                    int x = plotwidth - spectrogram->spectrogramData.size() + ind_line;
 
                     if (y < prevy && y > 0 && x >= 0 && x < (int)plotwidth && prevy < (int)plotheight) {
                         float value = lineData[ind_freq];
@@ -681,4 +681,3 @@ QSpectrogram::processData(float *buffer, unsigned int bufferLength) {
     renderImage(newLines, false);
     refreshPixmap();
 }
-
