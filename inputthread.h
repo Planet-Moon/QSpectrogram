@@ -21,7 +21,7 @@ public:
     unsigned int bufferSize;
 
 signals:
-    void bufferFilled(float *outputBufferLeft, unsigned int bufferLength);
+    void bufferFilled(float *outputBuffer, unsigned int bufferLength);
 
 protected:
     void run();
