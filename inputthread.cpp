@@ -22,6 +22,22 @@ U linearInterpolate(T x, T x0, T x1, U y0, U y1)
     return result;
 }
 
+/**
+ * @brief Chirp function
+ *
+ * @param w1 angular frequency 2Pi * f1
+ * @param w2 angular frequency 2Pi * f2
+ * @param A peak amplitude
+ * @param M chirp time
+ * @param time
+ * @return double
+ */
+double chirp(double w1, double w2, double A, double M, double time)
+{
+    const double res = A*cos(w1*time + (w2-w1)*time*time/(2*M));
+    return res;
+}
+
 InputThread::InputThread(unsigned int _sampleRate, unsigned int _bufferSize):
     sampleRate(_sampleRate), bufferSize(_bufferSize)
 {
@@ -46,26 +62,37 @@ void InputThread::run() {
     const quint32 min = generator->min();
     const quint32 max = generator->max();
 
-    const quint32 _period = 50;
-    const double frequency = 1/static_cast<double>(_period);
-    const double _amplitude = 1;
+    // const double frequency = 1/static_cast<double>(period);
+
+    std::function<double(qint64)> sine1 = [](qint64 time){
+        const quint32 period = 50; // 20 Hz
+        const double amplitude = 1;
+        double fraction = (time % period) / static_cast<double>(period);
+        return amplitude * sin(2 * M_PI * fraction);
+    };
+
+    std::function<double(qint64)> sine2 = [](qint64 time){
+        const quint32 period = 20; // 50 Hz
+        const double amplitude = 1;
+        double fraction = (time % period) / static_cast<double>(period);
+        return amplitude * sin(2 * M_PI * fraction);
+    };
 
     while(!stopped){
         qint64 start_time = QDateTime::currentMSecsSinceEpoch();
         qint64 time = -1;
         const double time_step_ms = 1000/static_cast<float>(sampleRate);
 
+        quint32 _random;
+        float random;
+        double deltaT, fraction, signal;
         for(int i = 0; i < bufferSize; i++){
-            const quint32 _random = generator->generate();
-            const float random = linearInterpolate(_random,min,max,0.f,100.f);
-
-
-            const double delta_t = i*time_step_ms;
-            time = start_time + delta_t;
-            const double fraction = (time % _period) / static_cast<double>(_period);
-            const double signal = _amplitude * sin(2 * M_PI * fraction);
-
-            rawBuffer[i] = 0.0*random + 1*signal;
+            _random = generator->generate();
+            random = linearInterpolate(_random,min,max,0.f,100.f);
+            deltaT = i*time_step_ms;
+            time = start_time + deltaT;
+            signal = sine1(time) + sine2(time);
+            rawBuffer[i] = 0.01*random + 1*signal;
         }
         *buffer = rawBuffer;
         const unsigned long sleep_time = 1'000'000*bufferSize/sampleRate;
