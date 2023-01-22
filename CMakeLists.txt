@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.25)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,7 +9,7 @@ set(CMAKE_AUTOMOC ON)
 project(QSpectrogram VERSION 1.0.0 LANGUAGES CXX CUDA)
 
 
-find_package(CUDAToolkit)
+find_package(CUDAToolkit REQUIRED)
 find_package(Qt5 COMPONENTS Core Widgets CONFIG REQUIRED)
 
 set(SRC
