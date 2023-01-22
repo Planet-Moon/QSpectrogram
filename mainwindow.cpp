@@ -46,5 +46,8 @@ MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 MainWindow::~MainWindow() {
-
+    if(inputThread){
+        inputThread->stop();
+        inputThread->wait();
+    }
 }
