@@ -32,6 +32,7 @@ target_link_libraries(lib${PROJECT_NAME} PUBLIC CUDA::cufft)
 target_link_libraries(lib${PROJECT_NAME} PUBLIC Qt5::Core Qt5::Widgets)
 target_include_directories(lib${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_compile_definitions(lib${PROJECT_NAME} PRIVATE QSPECTROGRAM_LIB)
+target_compile_definitions(lib${PROJECT_NAME} PUBLIC CUDA_FFT)
 
 
 add_executable(${PROJECT_NAME} myMain.cpp)
